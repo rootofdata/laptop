@@ -1,4 +1,4 @@
-#R 패키지 설치
+#R 패키지 설치 stringr :문자열 패키지
 install.packages("stringr")
 
 #R 패키지 로딩
