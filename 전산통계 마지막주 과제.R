@@ -1,0 +1,127 @@
+set.seed(1014)
+df<-data.frame(replicate(6,sample(c(1:10,-99),6,rep=T)))
+names(df)<-letters[1:6]
+df
+fix_missing<-function(x){
+  x[x==-99]<-NA
+  x
+}
+df$a<-fix_missing(df$a)
+df[]<-lapply(df,fix_missing)
+df
+fix_missing99<-function(x){
+  x[x==-99]<-NA
+  x
+}
+missing_fixer<-function(na_value){
+  function(x){
+    x[x==na_value]<-NA
+    x
+  }
+}
+fix_missing99<-missing_fixer(-99)
+
+summary<-function(x){
+  c(mean(x),median(x),sd(x),mad(x),IQR(x))
+}
+lapply(df,summary)
+df
+summary<-function(x){
+  c(mean(x,na.rm=TRUE))
+}
+summary<-function(x){
+  funs<-c(mean,median,sd,mad,IQR)
+  lapply(funs,function(f)f(x,na.rm=TRUE))
+}
+function(x)3()
+(function(x)3)()
+(function(x)x+10)(3)
+power<-function(exponent){
+  function(x){
+    x^exponent
+  }
+}
+square<-power(2)
+square(2)
+cube<-power(3)
+cube
+square
+environment(cube)
+
+power<-function(exponent){
+  print(environment())
+  function(x)x^exponent
+}
+zero<-power(0)
+col.fun<-colorRampPalette(c("blue","red"))
+col.fun
+typeof(col.fun)
+class(col.fun)
+col.fun(10)
+par(mar=rep(0,4))
+plot(rep(1,10),col=col.fun(10),cex=4,pch=16)
+draw<-function(x){
+  function(FUN,...)FUN(x,...)
+}
+draw.FUN<-draw(x=rnorm(1000))
+par(mfrow=c(2,2),mar=rep(0,4))
+draw.FUN(FUN=boxplot,col=topo.colors(4)[2])
+names(as.list(environment(draw.FUN)))
+names(as.list(environment(col.fun)))
+new_computer<-function(){
+  i<-0
+  function(){
+    i<<-i+1
+    i
+  }
+}
+counter_one<-new_computer()
+counter_one()
+counter_two
+i<-0
+new_computer2<-function(){
+  i<<-i+1
+  i
+}
+new_computer3<-function(){
+  i<-0
+  function(){
+    i<-i+1
+    i
+  }
+}
+conter<-new_computer3()
+conter
+con<-new_computer2()
+con
+computer_mean<-list(
+  base=function(x)mean(x),
+  sum=function(x)sum(x)/length(x),
+  manual=function(x){
+    total<-0
+    n<-length(x)
+    for(i in seq_along(x)){
+      total<-total+x[i]/n
+    }
+    total
+  }
+)
+x<-runif(1e5)
+lapply(computer_mean,function(f)f(x))
+funs<-list(
+  sum=sum,
+  mean=mean,
+  median=median
+)
+lapply(funs,function(f)f(x))
+)
+lapply(funs,function(f)f(x,na.rm=TRUE))
+simple_tag<-function(tag){
+  force(tag)
+  function(...){
+    paste0("<",tag,">",paste0(...),"</",tag,">")
+  }
+}
+tags<-c("p","b","i")
+html<-lapply(setNames(tags,tags),simple_tag)
+html$p("this is")
